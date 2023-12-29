@@ -1,28 +1,39 @@
-import unserialize from "@/utils/unserialize";
-import { NextResponse } from "next/server";
-import GeoDataAdapter from "@/adapters/geodata";
-import { GeoPluginResponse, GeoDataType } from "@/types/types.d";
+import { NextRequest, NextResponse } from "next/server";
+import getGeoData from "@/services/geoip-service";
+import { insertGeoData, getLastGeoData } from "@/services/supabase";
 
 export async function POST( request: Request ) {
-
   try {
-    const { origin, ip } = await request.json();
+    const { ip } = await request.json();
+    const data = await getGeoData( ip );
 
-    const url = `http://www.geoplugin.net/php.gp?ip=${ip}`
-    // const url = `https://ipinfo.io/${ip}/geo`
+    if ( data ) {
+      await insertGeoData( { ...data, ip } );
 
-    const response = await fetch( url )
+      const lastGeoData = await getLastGeoData();
 
-    if ( response && response.ok ) {
-      const serialized = await response.text()
-      const adapter = new GeoDataAdapter();
-
-      const data = adapter.extractData( unserialize( serialized ) as GeoPluginResponse )
-      return NextResponse.json( data )
+      return NextResponse.json( lastGeoData || {} )
     }
-    return NextResponse.json( { error: 'No response' } )
+    return NextResponse.json( { error: 'No data found' } )
   }
   catch ( e ) {
     return NextResponse.json( { error: e } );
   }
+}
+
+export async function GET( request: NextRequest ) {
+  // get the IP address from the request headers
+  const ip = request.headers.get( 'X-Forwarded-For' )
+  const data = await getGeoData( ip );
+  console.log( { data, ip } );
+
+  if ( data ) {
+    await insertGeoData( data );
+
+    const lastGeoData = await getLastGeoData();
+
+    return NextResponse.json( lastGeoData || {} )
+  }
+
+  return NextResponse.json( data )
 }
