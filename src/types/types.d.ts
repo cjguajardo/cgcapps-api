@@ -1,4 +1,4 @@
-export interface GeoPluginResponse {
+export type GeoPluginResponse = {
   geoplugin_request: string;
   geoplugin_status: string | null;
   geoplugin_delay: string;
@@ -25,11 +25,15 @@ export interface GeoPluginResponse {
   geoplugin_currencyConverter: string;
 }
 
-export interface GeoDataType {
+export interface GeoDataResponse {
   continent: string;
   country: string;
   region: string;
   city: string;
+}
+
+export interface GeoDataType extends GeoDataResponse {
+  ip?: string;
   latitude: string;
   longitude: string;
 }
