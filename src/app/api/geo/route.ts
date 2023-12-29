@@ -8,13 +8,9 @@ export async function GET (request: NextRequest) {
   const data = await getGeoData(ip)
   console.log({ data, ip })
 
+  const lastGeoData = await getLastGeoData()
   if (data) {
     await insertGeoData(data)
-
-    const lastGeoData = await getLastGeoData()
-
-    return NextResponse.json(lastGeoData || {})
   }
-
-  return NextResponse.json(data)
+  return NextResponse.json(lastGeoData || {})
 }
