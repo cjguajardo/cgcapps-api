@@ -13,6 +13,7 @@ export async function POST (request: Request) {
       return Response.json({ error: 'Invalid data' })
     }
     const origins = await getOrigins("/mail")
+    console.log({ origins })
     const data = await sendMailFromContactForm(contactFormData)
 
     return Response.json(data, {
