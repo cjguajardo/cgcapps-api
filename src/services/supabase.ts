@@ -33,7 +33,6 @@ export const getLastGeoData = async (): Promise<GeoDataResponse | null> => {
 
   const adapter = new GeoDataAdapter()
   const geoData = adapter.extractDataForResponse(data[0])
-  console.log({ data: data[0] })
 
   return geoData
 }

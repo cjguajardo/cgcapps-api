@@ -5,10 +5,12 @@ import { insertGeoData, getLastGeoData } from "@/services/supabase"
 export async function GET (request: NextRequest) {
   //@ts-ignore
   const ip = request.headers.get('X-Forwarded-For') || request.socket.remoteAddress
-  const data = await getGeoData(ip)
-  console.log({ data, ip })
-
+    || request.headers.get('CF-Connecting-IP') || request.headers.get('Fastly-Client-IP') ||
+    request.headers.get('True-Client-IP') || request.headers.get('X-Real-IP') ||
+    request.ip
   const lastGeoData = await getLastGeoData()
+
+  const data = await getGeoData(ip)
   if (data) {
     await insertGeoData(data)
   }
