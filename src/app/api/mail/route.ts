@@ -1,7 +1,6 @@
 
 import ContactFormAdapter from '@/adapters/contact-form-adapter'
 import { sendMailFromContactForm } from '@/services/email-service'
-import { getOrigins } from "@/services/supabase"
 
 export async function POST (request: Request) {
   const body = await request.json()
@@ -12,16 +11,9 @@ export async function POST (request: Request) {
     if (contactFormData.isValid === false) {
       return Response.json({ error: 'Invalid data' })
     }
-    const origins = await getOrigins("/mail")
-    console.log({ origins })
     const data = await sendMailFromContactForm(contactFormData)
 
-    return Response.json(data, {
-      headers: {
-        'cache-control': 's-maxage=1, stale-while-revalidate',
-        'Access-Control-Allow-Origin': origins.join(', '),
-      }
-    })
+    return Response.json(data)
   } catch (error) {
     return Response.json({ error })
   }
