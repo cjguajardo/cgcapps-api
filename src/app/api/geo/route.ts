@@ -11,5 +11,5 @@ export async function GET (request: NextRequest) {
   if (data) {
     await insertGeoData(data)
   }
-  return NextResponse.json(lastGeoData || {})
+  return NextResponse.json({ ...lastGeoData, ip })
 }
