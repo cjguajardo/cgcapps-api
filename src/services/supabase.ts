@@ -8,6 +8,23 @@ export const supabase = createClient(
 )
 
 export const insertGeoData = async (data: GeoDataType): Promise<void> => {
+  // first check if the ip already exists on the same day
+  const { data: existingData, error } = await supabase
+    .from('geo_ip')
+    .select('*')
+    .filter('ip', 'eq', data.ip)
+    .filter('created_at', 'gte', new Date().toISOString().split('T')[0])
+
+  if (error) {
+    console.error({ error })
+    return
+  }
+
+  if (existingData && existingData.length > 0) {
+    console.log('IP already exists')
+    return
+  }
+
   const result = await supabase.from('geo_ip').insert([data])
   console.log({ result })
   if (result.error) {
