@@ -6,14 +6,36 @@ import Image from 'next/image'
 export const EmailTemplate: React.FC<Readonly<ContactFormType>> = ({
   name, email, message
 }) => (
-  <div className="w-full h-full flex flex-col items-center justify-center">
-    <div className='my-12 w-[80%] md:w-[60%]'>
-      <div className='w-full flex flex-col items-center border rounded-md p-4 bg-slate-900'>
-        <Image src={CGCLogo} alt="CGC Logo" className="w-24 h-12" />
-        <h1 className="text-2xl">Hey!, <span className="font-bold">{name}</span> wants to talk</h1>
-        <p className="mt-6">{message}</p>
-        <p className="mt-6">Email: {email}</p>
+  <section className="max-w-2xl px-6 py-8 mx-auto bg-white dark:bg-gray-900">
+    <header>
+      <a href="#">
+        <Image className="w-auto h-7 sm:h-8" src={CGCLogo} alt="CGC Logo" />
+      </a>
+    </header>
+
+    <main className="mt-8">
+      <h2 className="text-gray-700 dark:text-gray-200">Hi Carlos,</h2>
+
+      <p className="mt-2 leading-loose text-gray-600 dark:text-gray-300">
+        You have received a new message from our contact form from <span className="font-semibold ">{name}</span>:
+      </p>
+
+      <p className="my-4 leading-loose text-gray-600 dark:text-gray-300 text-pretty">
+        <span className="text-xl text-bold pe-2">&quot;</span>
+        {message}
+        <span className="text-xl text-bold ps-2">&quot;</span>
+      </p>
+
+      <div>
+        <a href={`mailto:${email}`} className="inline-flex items-center text-blue-600 underline dark:text-blue-400 gap-x-2 underline-offset-4">
+          <span>Please respond to the sender at {email}</span>
+        </a>
       </div>
-    </div>
-  </div>
+
+      <p className="mt-8 text-gray-600 dark:text-gray-300">
+        <hr />
+        CGCAPPS &copy;
+      </p>
+    </main>
+  </section>
 )
