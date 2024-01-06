@@ -15,8 +15,6 @@ export async function GET (request: NextRequest) {
   const ip: IpInfo = {} as IpInfo
 
   ip['x-forwarded-for'] = request.headers.get('X-Forwarded-For')
-  // @ts-ignore
-  ip['remoteAddress'] = request.socket.remoteAddress
   ip['cf-connecting-ip'] = request.headers.get('CF-Connecting-IP')
   ip['fastly-client-ip'] = request.headers.get('Fastly-Client-IP')
   ip['true-client-ip'] = request.headers.get('True-Client-IP')
