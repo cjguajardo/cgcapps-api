@@ -11,10 +11,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.1",
-    "@types/cors": "^2.8.17",
-    "cors": "^2.8.5",
     "next": "14.0.4",
-    "next-cors": "^1.0.0",
     "react": "^18",
     "react-dom": "^18",
     "resend": "^2.1.0",
