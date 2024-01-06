@@ -8,7 +8,7 @@ export const EmailTemplate: React.FC<Readonly<ContactFormType>> = ({
   <section className="max-w-2xl px-6 py-8 mx-auto bg-white dark:bg-gray-900">
     <header>
       <a href="#">
-        <img className="w-auto h-7 sm:h-8" src="https://cgcapps-api.vercel.app/cgc-logo.png" alt="CGC Logo" />
+        <img height={48} src="https://cgcapps-api.vercel.app/cgc-logo.png" alt="CGC Logo" />
       </a>
     </header>
 
