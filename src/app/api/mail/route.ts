@@ -9,7 +9,7 @@ export async function POST (request: Request) {
     const contactFormData = adapter.extractData(body)
     console.log({ contactFormData })
     if (contactFormData.isValid === false) {
-      return Response.json({ error: 'Invalid data' })
+      return Response.json({ error: contactFormData.reasons })
     }
     const data = await sendMailFromContactForm(contactFormData)
 
