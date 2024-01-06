@@ -3,18 +3,25 @@ import ContactFormAdapter from '@/adapters/contact-form-adapter'
 import { sendMailFromContactForm } from '@/services/email-service'
 
 export async function POST (request: Request) {
-  const body = await request.json()
-  const adapter = new ContactFormAdapter()
   try {
-    const contactFormData = adapter.extractData(body)
-    console.log({ contactFormData })
-    if (contactFormData.isValid === false) {
-      return Response.json({ error: contactFormData.reasons })
-    }
-    const data = await sendMailFromContactForm(contactFormData)
+    const body = await request.json()
+    try {
+      const adapter = new ContactFormAdapter()
+      const contactFormData = adapter.extractData(body)
+      if (contactFormData.isValid === false) {
+        return Response.json({ error: contactFormData.reasons })
+      }
+      const data = await sendMailFromContactForm(contactFormData)
 
-    return Response.json(data)
-  } catch (error) {
-    return Response.json({ error })
+      return Response.json(data)
+    } catch (e: unknown) {
+      const error = e as Error
+      console.log({ error: error.message })
+      return Response.json({ error: error.message })
+    }
+  } catch (e: unknown) {
+    const error = e as Error
+    console.log({ error: error.message })
+    return Response.json({ error: 'Invalid request' })
   }
 }

@@ -33,7 +33,7 @@ class ContactFormAdapter {
     }
 
     // capitalize first letter of name
-    const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1).tolowerCase()
+    const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
 
     // clean message from html tags or scripts or other malicious code
     const cleanMessage = message.replace(/(<([^>]+)>)/gi, '')
